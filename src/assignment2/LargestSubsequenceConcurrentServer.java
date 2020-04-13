@@ -37,8 +37,9 @@ public class LargestSubsequenceConcurrentServer extends Thread {
         System.out.println("Concurrent Largest Consecutive Subsequence Server Started");
         // create serverSocket to listen on
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
-            //Loop to keep listening for new clients until application finished
+            //Loop to keep listening for new connections until application finishes
             do {
+                //Accept connection from the client
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client " + clientSocket.getInetAddress() + " Accepted");
                 clientIdNumber++; // give ID number to connecting client
@@ -53,9 +54,10 @@ public class LargestSubsequenceConcurrentServer extends Thread {
         } // end catch
     }
 
-    // run method for thread
+    // run method for threads
     @Override
     public void run() {
+        //Create output and input streams that read from and write to the client socket
         try (ObjectOutputStream outStream = new ObjectOutputStream(clientSocket.getOutputStream());
              ObjectInputStream inStream = new ObjectInputStream(clientSocket.getInputStream())) {
 
@@ -69,7 +71,7 @@ public class LargestSubsequenceConcurrentServer extends Thread {
             }
 
             System.out.println("Client:" + clientIdNumber + "\nEntry " + numList + " Added");
-            //Calls the printNumbersList function to show the results
+            //Passes numList, outputStream and the getSubSequence Function results to print function to handle output
             printNumbersList(numList, outStream, getSubsequence(numList));
 
         } catch (IOException e) {
