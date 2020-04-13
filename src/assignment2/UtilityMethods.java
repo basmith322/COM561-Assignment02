@@ -24,17 +24,13 @@ public class UtilityMethods {
 
     //Takes in subsequence and prints the unordered, ordered and actual subsequence
     static void printNumbersList(List<Integer> numbersList, ObjectOutputStream objOutStream, ArrayList<Integer> subsequence) {
-        //
-        System.out.println("Unordered List: " + numbersList);
-
-        Collections.sort(numbersList);
-        System.out.println("Ordered List: " + numbersList);
+        System.out.println("Total List " + numbersList);
 
         ArrayList<Integer> result;
         result = subsequence;
 
         int resultSize = getResultSize(objOutStream, result);
-        System.out.println(" Element(s) In Sub-Sequence: " + resultSize + "\nSub-Sequence Is: " + result.toString());
+        System.out.println("Element(s) In Sub-Sequence: " + resultSize + "\nSub-Sequence Is: " + result.toString());
     }
 
     //Handles the creation of the subsequence
@@ -44,28 +40,32 @@ public class UtilityMethods {
 
         //Set the previousNum at -99999999 as it is unlikely to be used
         int previousNum = -999999999;
+        boolean first = true;
 
         /*First iteration will set previous num to the first value it takes in,
         every iteration after should not change previous num at this point */
         for (Integer num : array) {
-            if (previousNum == -999999999) {
+            if (first) {
                 previousNum = num;
-                holder.add(num);
+                holder.add(previousNum);
+                first = false;
             } else {
-                //If the number is 1 above the previous number, add it to the holder to build the subsequence
-                if (num == (previousNum + 1)) {
+                //If the number is 1 below the previous number, add it to the holder to build the subsequence
+                if (previousNum == (num - 1)) {
                     holder.add(num);
-                } else { //if it is not 1 above the previous number than holder is made new to create a new subsequence
+                    previousNum = num;
+                } else { //if it is not 1 below the previous number than holder is made new to create a new subsequence
                     holder = new ArrayList<>();
+                    previousNum = num;
+                    holder.add(num);
                 }
-                previousNum = num;
             }
             //If the subsequence is smaller than the holder, then set the subsequence to the values stored in holder
             if (subsequence.size() < holder.size()) {
                 subsequence = holder;
             }
         }
-        System.out.println(subsequence);
+//        System.out.println(subsequence);
         return subsequence;
     }
 }

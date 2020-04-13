@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +29,7 @@ public class LargestSubsequenceIterativeServer {
         // create serverSocket to listen on	
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             //Loop to keep listening for new connections until application finishes
-            do {
+            while (true) {
                 //Accept connection from the client
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client " + clientSocket.getInetAddress() + " Accepted");
@@ -46,21 +47,22 @@ public class LargestSubsequenceIterativeServer {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(LargestSubsequenceIterativeServer.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    System.out.print("Client:" + clientIdNumber + "\nEntry " + numList + " Added");
+                    System.out.println("Client: " + clientIdNumber + "\nEntry " + numList + " Added");
 
                     //Passes numList, outputStream and the getSubSequence Function results to print function to handle output
                     printNumbersList(numList, out, getSubsequence(numList));
                 } catch (IOException e) {
                     System.err.println("IOException:" + e.getMessage());
                 }
-            } while (true);
+            }
         } catch (Exception e) {
             System.err.println("Exception:" + e.getMessage());
         }
     } // end main
 
-    //Takes in an array and passes it to the createSubSequence function
+    //Takes in an array and sorts it prior to passing it to the createSubSequence function
     public static ArrayList<Integer> getSubsequence(List<Integer> array) {
+        Collections.sort(array);
         return createSubSequence(array);
     }
 }

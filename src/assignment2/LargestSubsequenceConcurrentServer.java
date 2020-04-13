@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ public class LargestSubsequenceConcurrentServer extends Thread {
         // create serverSocket to listen on
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             //Loop to keep listening for new connections until application finishes
-            do {
+            while (true) {
                 //Accept connection from the client
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client " + clientSocket.getInetAddress() + " Accepted");
@@ -48,7 +49,7 @@ public class LargestSubsequenceConcurrentServer extends Thread {
                 LargestSubsequenceConcurrentServer concurrentServerThread = new LargestSubsequenceConcurrentServer(clientSocket, clientIdNumber);
                 System.out.println("Starting new thread");
                 concurrentServerThread.start();
-            } while (true);
+            }
         } catch (Exception e) {
             System.out.println("Exception:" + e.getMessage());
         } // end catch
@@ -70,7 +71,7 @@ public class LargestSubsequenceConcurrentServer extends Thread {
                 Logger.getLogger(LargestSubsequenceConcurrentServer.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            System.out.println("Client:" + clientIdNumber + "\nEntry " + numList + " Added");
+            System.out.println("Client: " + clientIdNumber + "\nEntry " + numList + " Added");
             //Passes numList, outputStream and the getSubSequence Function results to print function to handle output
             printNumbersList(numList, outStream, getSubsequence(numList));
 
@@ -79,8 +80,9 @@ public class LargestSubsequenceConcurrentServer extends Thread {
         }
     } // end run
 
-    //Takes in an array and passes it to the createSubSequence function
+    //Takes in an array and sorts it prior to passing it to the createSubSequence function
     public static ArrayList<Integer> getSubsequence(List<Integer> array) {
+        Collections.sort(array);
         return createSubSequence(array);
     }
 }
