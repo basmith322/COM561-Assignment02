@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static assignment2.UtilityMethods.getIntegers;
-import static assignment2.UtilityMethods.printUL;
+import static assignment2.UtilityMethods.createSubSequence;
+import static assignment2.UtilityMethods.printNumbersList;
 
-public class LargestNumberIterativeServer {
+public class LargestSubsequenceIterativeServer {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         // determine if port to listen on is specified by user else use default
@@ -39,11 +39,11 @@ public class LargestNumberIterativeServer {
                     try {
                         numList = (ArrayList<Integer>) in.readObject();
                     } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(LargestNumberIterativeServer.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(LargestSubsequenceIterativeServer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     System.out.print("Client:" + clientIdNumber + "\nEntry " + numList + " Added");
 
-                    printUL(numList, out, getSubsequence(numList));
+                    printNumbersList(numList, out, getSubsequence(numList));
                 } catch (IOException e) {
                     System.err.println("IOException:" + e.getMessage());
                 }
@@ -54,7 +54,7 @@ public class LargestNumberIterativeServer {
     } // end main
 
     public static ArrayList<Integer> getSubsequence(List<Integer> array) {
-        return getIntegers(array);
+        return createSubSequence(array);
     }
 
 
