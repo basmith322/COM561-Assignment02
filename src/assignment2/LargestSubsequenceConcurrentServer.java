@@ -55,6 +55,12 @@ public class LargestSubsequenceConcurrentServer extends Thread {
         } // end catch
     }
 
+    //Takes in an array and sorts it prior to passing it to the createSubSequence function
+    public static ArrayList<Integer> getSubsequence(List<Integer> array) {
+        Collections.sort(array);
+        return createSubSequence(array);
+    }
+
     // run method for threads
     @Override
     public void run() {
@@ -79,10 +85,4 @@ public class LargestSubsequenceConcurrentServer extends Thread {
             System.out.println("IOException:" + e.getMessage());
         }
     } // end run
-
-    //Takes in an array and sorts it prior to passing it to the createSubSequence function
-    public static ArrayList<Integer> getSubsequence(List<Integer> array) {
-        Collections.sort(array);
-        return createSubSequence(array);
-    }
 }
